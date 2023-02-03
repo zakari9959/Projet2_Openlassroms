@@ -7,23 +7,17 @@ fetch("http://localhost:5678/api/works")
             console.log(data[i].categoryId);
             var divPhoto = document.createElement("div");
             var imgWork = document.createElement("img");
-            
             imgWork.src = data[i].imageUrl;
-            
-
-            
+            imgWork.alt = data[i].title;
+            imgWork.crossOrigin = 'same-origin';
+            console.log(imgWork.crossOrigin);
             divPhoto.innerHTML = data[i].title;
             divPhoto.classList.add('work');
             divPhoto.dataset.workcategoryid = data[i].categoryId;
             galleryDiv.appendChild(divPhoto);
+            divPhoto.appendChild(imgWork);
 
         }
-
-        // Etape 1.1 du Etapes par Etapes
-        // A) : faire une boucle sur data pour qu à chaque tour de boucle on ait un console.log de chaque title
-        // B) crée un élement de type <div> 
-        // C) mets le titre dans cet élément créé
-        // D) insère cette div à l emplacement du html où on avait les <figure>    
 
     });
 document.querySelectorAll(".filtre").forEach(filtre => {
@@ -32,14 +26,14 @@ document.querySelectorAll(".filtre").forEach(filtre => {
         console.log('categoryId : ' + categoryId);
 
         const works = document.querySelectorAll('.work');
-        if (works) { 
+        if (works) {
             console.log(works);
 
             works.forEach(work => {
                 let workCategoryId = work.dataset.workcategoryid;
                 console.log(workCategoryId);
                 if (workCategoryId === categoryId || categoryId === 'tous') {
-                    work.style.display = 'block';
+                    work.style.display = 'flex';
                 } else {
                     work.style.display = 'none';
                 }
