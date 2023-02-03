@@ -6,10 +6,17 @@ fetch("http://localhost:5678/api/works")
             console.log(data[i].title);
             console.log(data[i].categoryId);
             var divPhoto = document.createElement("div");
+            var imgWork = document.createElement("img");
+            
+            imgWork.src = data[i].imageUrl;
+            
+
+            
             divPhoto.innerHTML = data[i].title;
             divPhoto.classList.add('work');
             divPhoto.dataset.workcategoryid = data[i].categoryId;
             galleryDiv.appendChild(divPhoto);
+
         }
 
         // Etape 1.1 du Etapes par Etapes
@@ -19,29 +26,29 @@ fetch("http://localhost:5678/api/works")
         // D) insère cette div à l emplacement du html où on avait les <figure>    
 
     });
-    document.querySelectorAll(".filtre").forEach(filtre => {
-        filtre.addEventListener("click", function() {
-          const categoryId = this.getAttribute("data-categoryId");
-          console.log('categoryId : ' + categoryId);
-      
-          const works = document.querySelectorAll('.work'); // avoiding <figure> as there is one for the architect's portrait photo
-          if (works) { // the if statement ensures works exists in the page before manipulating them
+document.querySelectorAll(".filtre").forEach(filtre => {
+    filtre.addEventListener("click", function () {
+        const categoryId = this.getAttribute("data-categoryId");
+        console.log('categoryId : ' + categoryId);
+
+        const works = document.querySelectorAll('.work');
+        if (works) { 
             console.log(works);
-      
+
             works.forEach(work => {
-              let workCategoryId = work.dataset.workcategoryid;
-              console.log(workCategoryId);
-              if (workCategoryId !== categoryId) {
-                work.style.display = 'none';
-              } else {
-                work.style.display = 'block';
-              }
-              
+                let workCategoryId = work.dataset.workcategoryid;
+                console.log(workCategoryId);
+                if (workCategoryId === categoryId || categoryId === 'tous') {
+                    work.style.display = 'block';
+                } else {
+                    work.style.display = 'none';
+                }
+
             });
-          }
-        });
-      });
-      
+        }
+    });
+});
+
 /*
                 
                 console.log(categoryId);
