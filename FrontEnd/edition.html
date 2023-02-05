@@ -25,7 +25,7 @@
             <div class="publier">publier les changements</div>
         </div>
         <div class="header">
-            <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+            <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
             <nav>
                 <ul>
                     <li><a href="index.html">projets</a></li>
@@ -46,7 +46,8 @@
             </figure>
             <article>
                 <h2>Designer d'espace</h2>
-                <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison
+                <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la
+                    livraison
                     finale du chantier.</p>
                 <p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les
                     couleurs dans le respect de l’esprit des lieux, et le choix adapté des matériaux. Le suivi du
@@ -58,10 +59,21 @@
         <section id="portfolio">
             <div id="modifierboutonprojets">
                 <h2>Mes Projets</h2>
-                <a href="#" class="modifierbouton"><i class="fa-regular fa-pen-to-square"></i>
+                <div id="modale">
+                    <div class="iconefermer"><i id="fermermodale" class="fa-solid fa-xmark"></i></div>
+                    <div class="corpsmodale">
+                        <h3>Galerie photo</h3>
+                        <div id="gallerymodale"></div>
+                        <div id="ajouterphotobtn">Ajouter une photo</div>
+                        <div id="supprimerphotobtn">Supprimer la galerie</div>
+                    </div>
+                </div>
+
+                <a href="#" id="ouvrirmodale" class="modifierbouton"><i class="fa-regular fa-pen-to-square"></i>
                     <p>modifier</p>
-                </div></a>
+                </a>
             </div>
+
 
             <menu id="filtres">
                 <div class="filtre" data-categoryid="tous">
@@ -94,6 +106,12 @@
                 <input type="submit" value="Envoyer">
             </form>
         </section>
+
+
+
+
+
+
     </main>
 
     <footer>
@@ -103,7 +121,9 @@
             </ul>
         </nav>
     </footer>
+
     <script type="text/javascript" src="./assets/JS/script.js"></script>
+    <script type="text/javascript" src="./assets/JS/edition.js"></script>
 </body>
 
 </html>
