@@ -53,15 +53,18 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-header {
+.header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 section {
 	margin: 50px 0
 }
-
+a {
+    text-decoration: none;
+    color: black;
+}
 h1{
 	display: flex;
 	flex-direction: column;
@@ -206,6 +209,7 @@ footer nav ul {
 .filtre:hover {
 	background-color: #1D6154;
 	color: #FFFFFF;
+	cursor: pointer;
 }
 
 .selected {

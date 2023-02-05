@@ -1,0 +1,64 @@
+.entete {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    
+}
+
+.entete p {
+    font-size: 16px;
+}
+
+.modeedition {
+    margin: 0 21px 0 9px;
+    font-family: 'Work Sans';
+    font-weight: 400;
+}
+
+.publier {
+    padding: 11px 23px;
+    color: black;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Work Sans';
+    background-color: white;
+    border-radius: 60px;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	margin: 100px 0 50px 0;
+}
+#introduction img{
+    margin-bottom: 15px;
+}
+.modifierbouton {
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    
+    margin-left: 60px;
+}
+.modifierbouton p {
+    margin-left: 8px;
+}
+
+#modifierboutonprojets {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2em;
+}
+#portfolio h2 {
+    margin-bottom: 0;
+}
+
