@@ -22,13 +22,13 @@ form.addEventListener("submit", async (event) => {
         const json = await reponse.json();
         console.log(`Token: ${json.token}`);
         sessionStorage.setItem("token", json.token);
-        window.location.href="edition.html";
+        window.location.href = "edition.html";
     } else {
         let main = document.querySelector('main');
         console.log("Connexion échouée");
         const erreurTexte = document.createElement("div");
-        erreurTexte.classList.add ('mdperrone');
-        erreurTexte.innerText= "Erreur dans l’identifiant ou le mot de passe";
+        erreurTexte.classList.add('mdperrone');
+        erreurTexte.innerText = "Erreur dans l’identifiant ou le mot de passe";
         main.appendChild(erreurTexte);
     }
 

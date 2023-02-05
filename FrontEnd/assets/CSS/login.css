@@ -1,24 +1,27 @@
-
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 150px;
 }
+
 h2 {
     padding-top: 8%;
     padding-bottom: 37px;
 }
+
 main .p {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .formulaire {
     display: flex;
     flex-direction: column;
-    
+
 }
+
 main input {
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
     border: none;
@@ -28,6 +31,7 @@ main input {
     margin-bottom: 30px;
     font-size: 20px;
 }
+
 form button {
     max-width: 200px;
     margin: 0 50px;
@@ -35,16 +39,18 @@ form button {
     padding: 0;
     border: none;
 }
+
 form h2 {
     padding: 10px 38px;
     color: white;
     font-size: 14px;
-    
+
     background-color: #1D6154;
-    
+
     border-radius: 60px;
-    
+
 }
+
 main a {
     font-size: 14px;
     font-weight: 500;
@@ -52,6 +58,7 @@ main a {
     text-decoration-thickness: 1px;
     margin-bottom: 15px;
 }
+
 .mdperrone {
     color: red;
 }

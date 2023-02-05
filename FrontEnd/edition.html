@@ -19,6 +19,7 @@
 
 
     <header>
+
         <div class="entete">
             <i class="fa-regular fa-pen-to-square"></i>
             <p class="modeedition">Mode edition</p>
@@ -59,14 +60,17 @@
         <section id="portfolio">
             <div id="modifierboutonprojets">
                 <h2>Mes Projets</h2>
-                <div id="modale">
-                    <div class="iconefermer"><i id="fermermodale" class="fa-solid fa-xmark"></i></div>
-                    <div class="corpsmodale">
-                        <h3>Galerie photo</h3>
-                        <div id="gallerymodale"></div>
-                        <div id="ajouterphotobtn">Ajouter une photo</div>
-                        <div id="supprimerphotobtn">Supprimer la galerie</div>
+                <div id="modale" style="display: none">
+                    <div class="corpscompletmodale">
+                        <div class="iconefermer"><i id="fermermodale" class="fa-solid fa-xmark"></i></div>
+                        <div class="corpsmodale">
+                            <h3>Galerie photo</h3>
+                            <div id="gallerymodale"></div>
+                            <div id="ajouterphotobtn">Ajouter une photo</div>
+                            <div id="supprimerphotobtn">Supprimer la galerie</div>
+                        </div>
                     </div>
+                    <div class="overlay"></div>
                 </div>
 
                 <a href="#" id="ouvrirmodale" class="modifierbouton"><i class="fa-regular fa-pen-to-square"></i>
