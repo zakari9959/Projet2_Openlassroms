@@ -1,6 +1,7 @@
 const modale = document.getElementById("modale");
 const ouvrirBouton = document.getElementById("ouvrirmodale");
 const fermerBouton = document.getElementById("fermermodale");
+const overlay = document.getElementById("overlay")
 
 ouvrirBouton.addEventListener("click", function () {
   modale.style.display = "block";
@@ -11,6 +12,9 @@ fermerBouton.addEventListener("click", function () {
   modale.style.display = "none";
 });
 
+overlay.addEventListener("click", function() {
+  modale.style.display = "none";
+});
 fetch("http://localhost:5678/api/works")
   .then(response => response.json())
   .then(data => {
@@ -23,13 +27,15 @@ fetch("http://localhost:5678/api/works")
       var figcaptionPhoto = document.createElement("figcaption");
       var imgWork = document.createElement("img");
       var iconePoubelle = document.createElement("i");
+      var iconeAffichage = document.createElement("i")
       iconePoubelle.classList.add("fa-solid");
-      iconePoubelle.classList.add("fa-trash");
-
+      iconePoubelle.classList.add("fa-trash-can");
+      iconeAffichage.classList.add("fa-solid");
+      iconeAffichage.classList.add("fa-arroxs-up-down-left-right");
       imgWork.src = data[i].imageUrl;
       imgWork.alt = data[i].title;
       imgWork.crossOrigin = 'same-origin';
-      imgWork.appendChild(iconePoubelle);
+      
       figcaptionPhoto.innerText = "éditer";
       figurePhoto.classList.add('work');
       figurePhoto.dataset.workcategoryid = data[i].categoryId;
@@ -39,6 +45,7 @@ fetch("http://localhost:5678/api/works")
         imgWork.appendChild(iconePoubelle);
         figurePhoto.appendChild(imgWork);
         figurePhoto.appendChild(figcaptionPhoto);
+        figurePhoto.appendChild(iconePoubelle);
       }
 
     }

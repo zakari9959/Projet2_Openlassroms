@@ -76,7 +76,7 @@
 
 }
 
-.overlay {
+#overlay {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -156,9 +156,17 @@
     border-radius: 10px;
     z-index: 11;
 }
-
-img i {
+.work {
     position: relative;
-    top: 10%;
+}
+.work i {
+    position: absolute;
+    top: 6px;
+    right: 6px;
     z-index: 13;
+    font-size: 9px;
+    padding: 4px;
+    color: white;
+    background-color: black;
+    border-radius: 2px;
 }

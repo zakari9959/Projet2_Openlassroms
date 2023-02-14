@@ -9,12 +9,19 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
+	<script src="https://kit.fontawesome.com/7d8e65aa41.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/CSS/style.css">
+	<link rel="stylesheet" href="./assets/CSS/edition.css">
 
 </head>
 
 <body>
+	<div class="entete hidden">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p class="modeedition">Mode edition</p>
+		<div class="publier">publier les changements</div>
+	</div>
 	<header>
 		<div class="header">
 			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -31,7 +38,10 @@
 	<main>
 		<section id="introduction">
 			<figure>
-				<img src="./assets/images/sophie-bluel.png" alt="">
+				<img src="./assets/images/sophie-bluel.png" alt="photo de l'architecte">
+				<div class="modifierbouton hidden"><i class="fa-regular fa-pen-to-square"></i>
+                    <p>modifier</p>
+                </div>
 			</figure>
 			<article>
 				<h2>Designer d'espace</h2>
@@ -44,8 +54,26 @@
 					décorateur(trice).</p>
 			</article>
 		</section>
-		<section id="portfolio">
+		<section id="portfolio"><div id="modifierboutonprojets" class="hidden">
 			<h2>Mes Projets</h2>
+			<div id="modale" style="display: none">
+				<div class="corpscompletmodale">
+					<div class="iconefermer"><i id="fermermodale" class="fa-solid fa-xmark"></i></div>
+					<div class="corpsmodale">
+						<h3>Galerie photo</h3>
+						<div id="gallerymodale"></div>
+						<div id="ajouterphotobtn">Ajouter une photo</div>
+						<div id="supprimerphotobtn">Supprimer la galerie</div>
+					</div>
+				</div>
+				<div id="overlay"></div>
+			</div>
+
+			<a href="#" id="ouvrirmodale" class="modifierbouton"><i class="fa-regular fa-pen-to-square"></i>
+				<p>modifier</p>
+			</a>
+		</div>
+			
 			<menu id="filtres">
 				<div class="filtre" data-categoryid="tous">
 					<h3>Tous</h3>
@@ -87,6 +115,7 @@
 		</nav>
 	</footer>
 	<script type="text/javascript" src="./assets/JS/script.js"></script>
+	<script type="text/javascript" src="./assets/JS/edition.js"></script>
 </body>
 
 </html>
