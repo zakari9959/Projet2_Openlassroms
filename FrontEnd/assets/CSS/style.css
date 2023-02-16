@@ -142,9 +142,7 @@ body {
 	font-size: 14px;
 }
 
-.hidden {
-	display: none;
-}
+
 
 .header {
 	display: flex;
@@ -326,6 +324,10 @@ footer nav ul {
 	background-color: #1D6154;
 	color: #FFFFFF;
 	cursor: pointer;
+}
+
+.entete.hidden,#deconnexion.hidden,.modifierbouton.hidden{
+	display: none;
 }
 
 .selected {

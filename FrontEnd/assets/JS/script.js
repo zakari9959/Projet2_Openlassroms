@@ -1,65 +1,69 @@
+
+
+function createWorkElement(work) {
+    let figurePhoto = document.createElement("figure");
+    let figcaptionPhoto = document.createElement("figcaption");
+    let imgWork = document.createElement("img");
+    imgWork.src = work.imageUrl;
+    imgWork.alt = work.title;
+    imgWork.crossOrigin = 'same-origin';
+    figcaptionPhoto.innerHTML = work.title;
+    figurePhoto.classList.add('work');
+    figurePhoto.dataset.workcategoryid = work.categoryId;
+    figurePhoto.appendChild(imgWork);
+    figurePhoto.appendChild(figcaptionPhoto);
+    return figurePhoto;
+}
+
+function filterWorksByCategoryId(categoryId) {
+    const works = document.querySelectorAll('.work');
+    works.forEach(work => {
+        let workCategoryId = work.dataset.workcategoryid;
+        if (workCategoryId === categoryId || categoryId === 'tous') {
+            work.style.display = 'block';
+        } else {
+            work.style.display = 'none';
+        }
+    });
+}
+
+function populateGallery(data) {
+    let galleryDiv = document.querySelector('#gallery');
+    for (let i = 0; i < data.length; i++) {
+        let workElement = createWorkElement(data[i]);
+        if (galleryDiv) {
+            galleryDiv.appendChild(workElement);
+        }
+    }
+}
+
 fetch("http://localhost:5678/api/works")
     .then(response => response.json())
     .then(data => {
-        let galleryDiv = document.querySelector('#gallery');
-        console.log(galleryDiv);
-        for (let i = 0; i < data.length; i++) {
-            console.log(data[i].title);
-            console.log(data[i].categoryId);
-            var figurePhoto = document.createElement("figure");
-            var figcaptionPhoto = document.createElement("figcaption");
-            var imgWork = document.createElement("img");
-            imgWork.src = data[i].imageUrl;
-            imgWork.alt = data[i].title;
-            imgWork.crossOrigin = 'same-origin';
-            figcaptionPhoto.innerHTML = data[i].title;
-            figurePhoto.classList.add('work');
-            figurePhoto.dataset.workcategoryid = data[i].categoryId;
-            /*Pour qu'il n'y ai pas d'erreur dans la page login, mais pas très utile finalement car j'ai juste à enlever le script de la page login.html*/
-            if (galleryDiv) {
-                galleryDiv.appendChild(figurePhoto);
-                figurePhoto.appendChild(imgWork);
-                figurePhoto.appendChild(figcaptionPhoto);
-            }
-
-        }
-
+        populateGallery(data);
     });
+
 document.querySelectorAll(".filtre").forEach(filtre => {
     filtre.addEventListener("click", function () {
         const categoryId = this.getAttribute("data-categoryId");
-        console.log('categoryId : ' + categoryId);
-
-        const works = document.querySelectorAll('.work');
-        if (works) {
-            console.log(works);
-
-            works.forEach(work => {
-                let workCategoryId = work.dataset.workcategoryid;
-                console.log(workCategoryId);
-                if (workCategoryId === categoryId || categoryId === 'tous') {
-                    work.style.display = 'block';
-                } else {
-                    work.style.display = 'none';
-                }
-
-            });
-        }
+        filterWorksByCategoryId(categoryId);
     });
+
+
 });
-
 /*
-                
-                console.log(categoryId);
-                console.log(figureNumeroId)
-                // Mettre en évidence le filtre actuel
-                document.querySelectorAll(".filtre").forEach(f => {
-                    f.classList.remove("selected");
-                });
-                this.classList.add("selected");
-            });
-        });
-        // Sélectionner le filtre "tous" par défaut
-        document.querySelector('[data-categoryId="tous"]').click();
+// Affichage des éléments cachés une fois que l'utilisateur est connecté
+import { loginUser } from "./login.js";
+const tokenUtilisateur = sessionStorage.getItem("token");
+const json = loginUser("sophie.bluel@test.tld", "S0phie")
+console.log(tokenUtilisateur);
+console.log(json);
+if (tokenUtilisateur) {
+    const hiddenElements = document.getElementsByClassName('hidden');
+    console.log("hiddenElements" + hiddenElements);
+    hiddenElements.forEach(hiddenElements => {
+        hiddenElements.classList.remove('hidden');
     });
+
+}
 */
