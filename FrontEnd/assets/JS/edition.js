@@ -41,13 +41,15 @@ fetch("http://localhost:5678/api/works")
       iconeAffichage.classList.add("fa-arroxs-up-down-left-right");
       imgWork.src = data[i].imageUrl;
       imgWork.alt = data[i].title;
-      figurePhoto.id = data[i].id;
+
       console.log(imgWork.id);
       imgWork.crossOrigin = 'same-origin';
 
       figcaptionPhoto.innerText = "éditer";
       figurePhoto.classList.add('work');
       figurePhoto.dataset.workcategoryid = data[i].categoryId;
+      figurePhoto.dataset.workid = data[i].id;
+      iconePoubelle.dataset.workid = data[i].id;
       /*Pour qu'il n'y ai pas d'erreur dans la page login, mais pas très utile finalement car j'ai juste à enlever le script de la page login.html*/
       if (galleryDiv) {
         galleryDiv.appendChild(figurePhoto);
@@ -60,42 +62,44 @@ fetch("http://localhost:5678/api/works")
     }
 
   });
-
-
-function deleteImage(workId) {
+/*
   const works = document.getElementsByClassName("work");
   Array.from(works).forEach(work => {
     let id = work.id;
     console.log(id);
 
-    const iconePoubelleBouton = document.getElementsByClassName("poubelle")[id];
 
-    iconePoubelleBouton.addEventListener("click", function () {
-      console.log("click");
-      const reponse = fetch(`http://localhost:5678/api/works/${id}`, {
-        method: "DELETE",
-        headers: {
-          "accept": "*/*",
-
-        },
-
-      })
-        .then(reponse => {
-          if (reponse.ok) {
-
-            work.remove();
-          } else {
-            console.log(`Impossible de supprimer le travail ${id}`);
-          }
-        })
+    const id = icon.parentNode.id;
+    deleteImage(id, icon);
+*/
+function deleteImage(id, iconePoubelleBouton) {
+  const reponse = fetch(`http://localhost:5678/api/works/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${sessionStorage.getItem("Token")}`,
+    },
+  })
+    .then(reponse => {
+      if (reponse.ok) {
+        iconePoubelleBouton.parentNode.remove();
+      } else {
+        console.log(`Impossible de supprimer le travail ${id}`);
+      }
     });
-
-
-
-  });
-
-
 }
+
+const iconePoubelleBoutons = document.querySelectorAll("poubelle");
+console.log(iconePoubelleBoutons)
+for (const iconePoubelleBouton of iconePoubelleBoutons) {
+  console.log(iconePoubelleBouton);
+  const id = iconePoubelleBouton.dataset.workid;
+  console.log(id);
+  iconePoubelleBouton.addEventListener("click", function (event) {
+    console.log("click");
+  });
+};
+
 
 ouvrirBouton.addEventListener("click", function () {
   modale.style.display = "block";
