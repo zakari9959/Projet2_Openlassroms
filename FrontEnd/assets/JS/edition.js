@@ -111,7 +111,7 @@ async function sendFormData(formData) {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
-        
+
         "Authorization": `Bearer ${sessionStorage.getItem("Token")}`,
       },
       body: formData,
@@ -165,19 +165,49 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const formData = new FormData(form);
-  
-  const image = form.ajouterimage.value;
+
+  const image = form.ajouterimage.files[0];
   const titre = form.elements.imagetitre.value;
   const category = form.elements.imageCategory.value;
   console.log(`Image: ${image}`);
   console.log(`Titre: ${titre}`);
-  console.log(`Catégorie: ${category}`);
+  console.log(`Catégorie: ${category}`);/*
   formData.append('imageUrl=', `${image}`);
-  formData.append('title', `${titre}`);
-  formData.append('categoryId', `${category}`);
+  formData.append('title=', `${titre}`);
+  formData.append('categoryId=', `${category}`);
   console.log(formData.get("imageUrl="));
   JSON.stringify(formData);
-  console.log(formData);
+  console.log(formData);*/
+  formData.append("title", titre);
+  formData.append("image", image);
+  formData.append("category", category);
   sendFormData(formData);
 
+});
+
+const inputImage = document.getElementById("ajouterimage");
+const imagePreview = document.getElementById("image-preview");
+
+inputImage.addEventListener("change", () => {
+  const file = inputImage.files[0];
+
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+
+      const img = document.createElement('img');
+      img.src = reader.result;
+      imagePreview.innerHTML = '';
+      imagePreview.appendChild(img);
+      const texteajouter = document.getElementById("texteajouterunephoto");
+      const taillemax = document.getElementById("imagetaillemax");
+      texteajouter.style.display="none";
+      taillemax.style.display="none";
+      
+
+    };
+  } else {
+    imagePreview.innerHTML = "Le fichier sélectionné n'est pas une image.";
+  }
 });

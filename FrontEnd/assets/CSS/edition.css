@@ -176,13 +176,87 @@
     flex-direction: column;
     align-items: center;
 }
-.ajouterphoto {
+#ajouterphoto {
     display: flex;
-    
+    flex-direction: column;
+    align-items: center;
 }
 .boutonretour {
     position: absolute;
     top: 30px;
     right: 590px;
     width: 21px;
+}
+#ajoutphotomodale {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.divimage {
+    background-color: #E8F1F7;
+    width: 420px;
+    padding-bottom: 19px;
+    padding-top: 28px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 36px 105px 30px 105px;
+    border-radius: 3%;
+    cursor: pointer;
+}
+#texteajouterunephoto {
+    padding: 10px 33px;
+    background-color: #CBD6DC;
+    border-radius: 50px;
+    margin-bottom: 7px;
+    cursor: pointer;
+}
+.divtexte {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+    padding-bottom: 26px;
+    margin-bottom: 32px;
+}
+.divtexte label {
+    margin-bottom: 10px;
+}
+.divtexte input {
+    height: 51px;
+    padding-left: 16px;
+    margin-bottom: 21px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.divtexte select {
+    border: none;
+    height: 51px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    padding-left: 16px;
+    cursor: pointer;
+}
+#ajoutvalider {
+    width: 237px;
+    padding: 10px 0;
+    margin-bottom: 55px;
+    background-color: #1D6154;
+    border-radius: 60px;
+    color: white;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    cursor: pointer;
+}
+
+#ajouterimage {
+    display: none;
+}
+
+#imagetaillemax {
+    cursor: pointer;
+}
+
+#image-preview img{
+    width: 129px;
 }

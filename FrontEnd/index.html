@@ -72,16 +72,24 @@
 							<div class="boutonretour"><i class="fa-solid fa-arrow-left"></i></div>
 							<h3>Ajout photo</h3>
 							<form id="ajouterphoto" method="post">
-								<label for="ajouterimage">+ Ajouter une photo</label>
-								<input type="file" id="ajouterimage" name="ajouterimage">
-								<label for="imagetitre">Titre</label>
-								<input type="text" id="imagetitre" name="imagetitre">
-								<label for="imageCategory">Catégorie</label>
-								<select id="imageCategory" name="imageCategory">
-									<option value="1">Objets</option>
-									<option value="2">Appartements</option>
-									<option value="3">Hôtels & restaurants</option>
-								</select>
+								<div class="divimage">
+									<div id="image-preview"></div>
+									<label for="ajouterimage" id="texteajouterunephoto">+ Ajouter une photo</label>
+									<input type="file" id="ajouterimage" name="ajouterimage">
+									<label for="ajouterimage" id="imagetaillemax">jpg, png : 4mo max</label>
+								</div>
+								<div class="divtexte">
+									<label for="imagetitre">Titre</label>
+									<input type="text" id="imagetitre" name="imagetitre">
+									
+									<label for="imageCategory">Catégorie</label>
+									<select id="imageCategory" name="imageCategory">
+										<option value="1">Objets</option>
+										<option value="2">Appartements</option>
+										<option value="3">Hôtels & restaurants</option>
+									</select>
+
+								</div>
 								<button type="submit" id="ajoutvalider">Valider</button>
 							</form>
 						</div>
@@ -136,7 +144,7 @@
 		</nav>
 	</footer>
 	<script type="text/javascript" src="./assets/JS/script.js"></script>
-	
+
 	<script type="text/javascript" src="./assets/JS/edition.js"></script>
 </body>
 
