@@ -21,7 +21,7 @@ async function loginUser(email, password) {
     const ancienErreurTexte = document.querySelector('.mdperrone');
     if (ancienErreurTexte) {
         ancienErreurTexte.remove();
-    }
+    };
     // Traitement de la réponse de la requête
     // Création d'un nouvel élément pour afficher l'erreur correspondante
     const nouvelleErreurTexte = document.createElement("div");

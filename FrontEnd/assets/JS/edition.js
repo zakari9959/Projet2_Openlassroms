@@ -6,18 +6,21 @@ const publierBouton = document.getElementById("publier");
 const deconnexionBouton = document.getElementById("deconnexion");
 
 
+
 // Affichage des éléments cachés une fois que l'utilisateur est connecté
 const tokenUtilisateur = sessionStorage.getItem("Token");
 console.log(tokenUtilisateur);
-const hiddenElements = document.getElementsByClassName('hidden');
+const hiddenElements = document.querySelectorAll(".hidden");
 console.log("hiddenElements" + hiddenElements);
-Array.from(hiddenElements).forEach(hiddenElement => {
-  if (tokenUtilisateur) {
-    hiddenElement.classList.remove('hidden');
-  } else {
-    hiddenElement.classList.add("hidden");
-  }
-});
+if (hiddenElements) {
+  hiddenElements.forEach(hiddenElement => {
+    if (tokenUtilisateur) {
+      hiddenElement.classList.remove("hidden");
+    } else {
+      hiddenElement.classList.add("hidden");
+    }
+  })
+};
 
 
 
@@ -61,16 +64,27 @@ fetch("http://localhost:5678/api/works")
 
     }
 
+  })
+  .then(data => {
+    const iconePoubelleBoutons = document.querySelectorAll(".poubelle");
+    console.log(iconePoubelleBoutons)
+    for (const iconePoubelleBouton of iconePoubelleBoutons) {
+      console.log(iconePoubelleBouton);
+      const id = iconePoubelleBouton.dataset.workid;
+
+      iconePoubelleBouton.addEventListener("click", function (event) {
+        console.log("click");
+        console.log(id);
+        deleteImage(id, iconePoubelleBouton);
+      });
+    }
+
   });
+
+
+
 /*
-  const works = document.getElementsByClassName("work");
-  Array.from(works).forEach(work => {
-    let id = work.id;
-    console.log(id);
 
-
-    const id = icon.parentNode.id;
-    deleteImage(id, icon);
 */
 function deleteImage(id, iconePoubelleBouton) {
   const reponse = fetch(`http://localhost:5678/api/works/${id}`, {
@@ -89,17 +103,26 @@ function deleteImage(id, iconePoubelleBouton) {
     });
 }
 
-const iconePoubelleBoutons = document.querySelectorAll("poubelle");
-console.log(iconePoubelleBoutons)
-for (const iconePoubelleBouton of iconePoubelleBoutons) {
-  console.log(iconePoubelleBouton);
-  const id = iconePoubelleBouton.dataset.workid;
-  console.log(id);
-  iconePoubelleBouton.addEventListener("click", function (event) {
-    console.log("click");
-  });
-};
 
+async function sendFormData(formData) {
+  try {
+    console.log(formData);
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        
+        "Authorization": `Bearer ${sessionStorage.getItem("Token")}`,
+      },
+      body: formData,
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 ouvrirBouton.addEventListener("click", function () {
   modale.style.display = "block";
@@ -119,10 +142,42 @@ publierBouton.addEventListener("click", function () {
   sessionStorage.removeItem("Token");
   window.location.href = "index.html";
 });
+
 deconnexionBouton.addEventListener("click", function () {
 
   sessionStorage.removeItem("Token");
   window.location.href = "index.html";
 });
 
+const ajouterPhotoBouton = document.getElementById("ajouterphotobtn");
+ajouterPhotoBouton.addEventListener("click", function () {
+  const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
+  const corpsModale = document.querySelector(".corpsmodale");
+  ajouterPhotoDiv.style.display = "flex";
+  corpsModale.style.display = "none";
+});
 
+
+const form = document.getElementById("ajouterphoto");
+
+form.addEventListener("submit", async (event) => {
+  console.log("Soumission du formulaire");
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  
+  const image = form.ajouterimage.value;
+  const titre = form.elements.imagetitre.value;
+  const category = form.elements.imageCategory.value;
+  console.log(`Image: ${image}`);
+  console.log(`Titre: ${titre}`);
+  console.log(`Catégorie: ${category}`);
+  formData.append('imageUrl=', `${image}`);
+  formData.append('title', `${titre}`);
+  formData.append('categoryId', `${category}`);
+  console.log(formData.get("imageUrl="));
+  JSON.stringify(formData);
+  console.log(formData);
+  sendFormData(formData);
+
+});

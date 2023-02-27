@@ -41,16 +41,17 @@ fetch("http://localhost:5678/api/works")
     .then(response => response.json())
     .then(data => {
         populateGallery(data);
-    });
+    })
+    .then(() => {
 
-document.querySelectorAll(".filtre").forEach(filtre => {
-    filtre.addEventListener("click", function () {
-        const categoryId = this.getAttribute("data-categoryId");
-        filterWorksByCategoryId(categoryId);
-    });
+        document.querySelectorAll(".filtre").forEach(filtre => {
+            filtre.addEventListener("click", function () {
+                const categoryId = this.getAttribute("data-categoryId");
+                filterWorksByCategoryId(categoryId);
+            });
 
 
-});
+        })});
 /*
 // Affichage des éléments cachés une fois que l'utilisateur est connecté
 import { loginUser } from "./login.js";
