@@ -150,6 +150,7 @@ deconnexionBouton.addEventListener("click", function () {
 });
 
 const ajouterPhotoBouton = document.getElementById("ajouterphotobtn");
+
 ajouterPhotoBouton.addEventListener("click", function () {
   const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
   const corpsModale = document.querySelector(".corpsmodale");
@@ -163,51 +164,80 @@ const form = document.getElementById("ajouterphoto");
 form.addEventListener("submit", async (event) => {
   console.log("Soumission du formulaire");
   event.preventDefault();
+  const postApi = "http://localhost:5678/api/works";
 
   const formData = new FormData(form);
-
-  const image = form.ajouterimage.files[0];
-  const titre = form.elements.imagetitre.value;
-  const category = form.elements.imageCategory.value;
-  console.log(`Image: ${image}`);
-  console.log(`Titre: ${titre}`);
-  console.log(`Catégorie: ${category}`);/*
-  formData.append('imageUrl=', `${image}`);
-  formData.append('title=', `${titre}`);
-  formData.append('categoryId=', `${category}`);
-  console.log(formData.get("imageUrl="));
-  JSON.stringify(formData);
-  console.log(formData);*/
-  formData.append("title", titre);
+  const image = form.ajouterimage.files[0]
+  
   formData.append("image", image);
-  formData.append("category", category);
-  sendFormData(formData);
-
+  formData.append("title", form.imagetitre.value);
+  
+  formData.append("category", form.imageCategory.value);
+  console.log(formData.get("image"));
+  console.log(sessionStorage.Token);
+  const fetchInit = {
+    
+    method: "POST",
+    headers: {
+      
+      Authorization: `Bearer ${sessionStorage.getItem("Token")}`,
+      
+    },
+    body: formData,
+  };
+  try {
+    const reponse = await fetch(postApi, fetchInit);
+    if (reponse.ok) {
+      console.log('ok')
+    }
+  } catch (error) {
+    console.error(error);
+  };
+  const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
+  const corpsModale = document.querySelector(".corpsmodale");
+  ajouterPhotoDiv.style.display = "none";
+  corpsModale.style.display = "flex";
 });
+
+
+
+
+
+
+
 
 const inputImage = document.getElementById("ajouterimage");
 const imagePreview = document.getElementById("image-preview");
+const texteajouter = document.getElementById("texteajouterunephoto");
+const taillemax = document.getElementById("imagetaillemax");
 
 inputImage.addEventListener("change", () => {
   const file = inputImage.files[0];
 
   if (file.type.startsWith('image/')) {
+    imagePreview.style.display = "flex";
+    texteajouter.style.display = "none";
+    taillemax.style.display = "none";
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-
       const img = document.createElement('img');
       img.src = reader.result;
       imagePreview.innerHTML = '';
       imagePreview.appendChild(img);
-      const texteajouter = document.getElementById("texteajouterunephoto");
-      const taillemax = document.getElementById("imagetaillemax");
-      texteajouter.style.display="none";
-      taillemax.style.display="none";
-      
-
+      texteajouter.style.display = "none";
+      taillemax.style.display = "none";
     };
+    
   } else {
     imagePreview.innerHTML = "Le fichier sélectionné n'est pas une image.";
   }
+
 });
+
+imagePreview.addEventListener("click", () => {
+  inputImage.innerHTML = "";
+  imagePreview.style.display = "none";
+  texteajouter.style.display = "flex";
+  taillemax.style.display = "flex";
+})
