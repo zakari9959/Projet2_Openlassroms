@@ -76,6 +76,7 @@ fetch("http://localhost:5678/api/works")
         console.log("click");
         console.log(id);
         deleteImage(id, iconePoubelleBouton);
+        iconePoubelleBouton.parentNode.remove();
       });
     }
 
@@ -97,6 +98,7 @@ function deleteImage(id, iconePoubelleBouton) {
     .then(reponse => {
       if (reponse.ok) {
         iconePoubelleBouton.parentNode.remove();
+
       } else {
         console.log(`Impossible de supprimer le travail ${id}`);
       }
@@ -167,14 +169,14 @@ form.addEventListener("submit", async (event) => {
   const postApi = "http://localhost:5678/api/works";
 
   const formData = new FormData(form);
-  const image = form.ajouterimage.files[0]
+  const image = form.image.files[0]
   
-  formData.append("image", image);
-  formData.append("title", form.imagetitre.value);
-  
-  formData.append("category", form.imageCategory.value);
-  console.log(formData.get("image"));
+ 
+  console.log(formData.get("category"));
   console.log(sessionStorage.Token);
+  for (let [key, value] of formData.entries()) {
+    console.log(key + ': ' + value);
+  }
   const fetchInit = {
     
     method: "POST",
@@ -197,6 +199,7 @@ form.addEventListener("submit", async (event) => {
   const corpsModale = document.querySelector(".corpsmodale");
   ajouterPhotoDiv.style.display = "none";
   corpsModale.style.display = "flex";
+  
 });
 
 
@@ -206,7 +209,7 @@ form.addEventListener("submit", async (event) => {
 
 
 
-const inputImage = document.getElementById("ajouterimage");
+const inputImage = document.getElementById("image");
 const imagePreview = document.getElementById("image-preview");
 const texteajouter = document.getElementById("texteajouterunephoto");
 const taillemax = document.getElementById("imagetaillemax");
