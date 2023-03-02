@@ -67,7 +67,8 @@ fetch("http://localhost:5678/api/works")
   })
   .then(data => {
     const iconePoubelleBoutons = document.querySelectorAll(".poubelle");
-    console.log(iconePoubelleBoutons)
+    const supprimerphotobtn = document.getElementById("supprimerphotobtn");
+    console.log(iconePoubelleBoutons);
     for (const iconePoubelleBouton of iconePoubelleBoutons) {
       console.log(iconePoubelleBouton);
       const id = iconePoubelleBouton.dataset.workid;
@@ -76,11 +77,18 @@ fetch("http://localhost:5678/api/works")
         console.log("click");
         console.log(id);
         deleteImage(id, iconePoubelleBouton);
-        iconePoubelleBouton.parentNode.remove();
+        
+      })
+      supprimerphotobtn.addEventListener("click", function(){
+        const images = document.querySelectorAll("figure");
+        images.forEach(function(image){
+          deleteImage(id, iconePoubelleBouton);
+        })
       });
     }
 
   });
+
 
 
 
@@ -170,20 +178,20 @@ form.addEventListener("submit", async (event) => {
 
   const formData = new FormData(form);
   const image = form.image.files[0]
-  
- 
+
+
   console.log(formData.get("category"));
   console.log(sessionStorage.Token);
   for (let [key, value] of formData.entries()) {
     console.log(key + ': ' + value);
   }
   const fetchInit = {
-    
+
     method: "POST",
     headers: {
-      
+
       Authorization: `Bearer ${sessionStorage.getItem("Token")}`,
-      
+
     },
     body: formData,
   };
@@ -199,7 +207,7 @@ form.addEventListener("submit", async (event) => {
   const corpsModale = document.querySelector(".corpsmodale");
   ajouterPhotoDiv.style.display = "none";
   corpsModale.style.display = "flex";
-  
+
 });
 
 
@@ -211,27 +219,38 @@ form.addEventListener("submit", async (event) => {
 
 const inputImage = document.getElementById("image");
 const imagePreview = document.getElementById("image-preview");
+const img = document.createElement("img");
+img.src = "./assets/icons/icone_image.png";
+imagePreview.appendChild(img);
 const texteajouter = document.getElementById("texteajouterunephoto");
 const taillemax = document.getElementById("imagetaillemax");
-
+const divimage = document.getElementById("divimage");
 inputImage.addEventListener("change", () => {
   const file = inputImage.files[0];
 
-  if (file.type.startsWith('image/')) {
+  if (file.type.startsWith("image/")) {
+
+    divimage.style.paddingBottom = "0";
+    divimage.style.paddingTop = "0";
     imagePreview.style.display = "flex";
     texteajouter.style.display = "none";
     taillemax.style.display = "none";
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      const img = document.createElement('img');
+
+
       img.src = reader.result;
-      imagePreview.innerHTML = '';
+      console.log(inputImage);
+
+      console.log(inputImage);
+      imagePreview.innerHTML = "";
       imagePreview.appendChild(img);
       texteajouter.style.display = "none";
       taillemax.style.display = "none";
+
     };
-    
+
   } else {
     imagePreview.innerHTML = "Le fichier sélectionné n'est pas une image.";
   }
@@ -239,8 +258,11 @@ inputImage.addEventListener("change", () => {
 });
 
 imagePreview.addEventListener("click", () => {
-  inputImage.innerHTML = "";
-  imagePreview.style.display = "none";
+  inputImage.value= "";
+  img.src = "./assets/icons/icone_image.png";
   texteajouter.style.display = "flex";
   taillemax.style.display = "flex";
-})
+  divimage.style.paddingBottom = "19px";
+  divimage.style.paddingTop = "28px";
+});
+
