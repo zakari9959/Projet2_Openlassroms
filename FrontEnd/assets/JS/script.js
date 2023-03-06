@@ -10,6 +10,7 @@ function createWorkElement(work) {
     figcaptionPhoto.innerHTML = work.title;
     figurePhoto.classList.add('work');
     figurePhoto.dataset.workcategoryid = work.categoryId;
+    figurePhoto.dataset.workid = work.id;
     figurePhoto.appendChild(imgWork);
     figurePhoto.appendChild(figcaptionPhoto);
     return figurePhoto;
@@ -17,6 +18,7 @@ function createWorkElement(work) {
 
 function filterWorksByCategoryId(categoryId) {
     const works = document.querySelectorAll('.work');
+    if (works) {
     works.forEach(work => {
         let workCategoryId = work.dataset.workcategoryid;
         if (workCategoryId === categoryId || categoryId === 'tous') {
@@ -24,7 +26,7 @@ function filterWorksByCategoryId(categoryId) {
         } else {
             work.style.display = 'none';
         }
-    });
+    })};
 }
 
 function populateGallery(data) {
