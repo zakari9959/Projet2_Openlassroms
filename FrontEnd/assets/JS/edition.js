@@ -9,16 +9,14 @@ const deconnexionBouton = document.getElementById("deconnexion");
 
 // Affichage des éléments cachés une fois que l'utilisateur est connecté
 const tokenUtilisateur = sessionStorage.getItem("Token");
-console.log(tokenUtilisateur);
 const hiddenElements = document.querySelectorAll(".hidden");
-console.log("hiddenElements" + hiddenElements);
-if (hiddenElements) {
+if (hiddenElements && tokenUtilisateur) {
   hiddenElements.forEach(hiddenElement => {
-    if (tokenUtilisateur) {
-      hiddenElement.classList.remove("hidden");
-    } else {
-      hiddenElement.classList.add("hidden");
-    }
+    hiddenElement.classList.remove("hidden");
+  })
+} else {
+  hiddenElements.forEach(hiddenElement => {
+    hiddenElement.classList.add("hidden");
   })
 };
 
@@ -38,11 +36,10 @@ function createModalWork(i, data) {
   imgWork.alt = data[i].title;
   imgWork.crossOrigin = 'same-origin';
   figcaptionPhoto.innerText = "éditer";
-  figurePhoto.classList.add('work');
+  figurePhoto.classList.add('work'); /* changer par work modal pour ne plus filtrer dans la modale*/
   figurePhoto.dataset.workcategoryid = data[i].categoryId;
   figurePhoto.dataset.workid = data[i].id;
   iconePoubelle.dataset.workid = data[i].id;
-  /*Pour qu'il n'y ai pas d'erreur dans la page login, mais pas très utile finalement car j'ai juste à enlever le script de la page login.html*/
   if (galleryDiv) {
     galleryDiv.appendChild(figurePhoto);
     imgWork.appendChild(iconePoubelle);
@@ -51,59 +48,67 @@ function createModalWork(i, data) {
     figurePhoto.appendChild(iconePoubelle);
   }
 }
+initApiEdition()
+async function initApiEdition() {
+  await fetch("http://localhost:5678/api/works")
+    .then(response => response.json())
+    .then(data => {
 
-fetch("http://localhost:5678/api/works")
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    for (let i = 0; i < data.length; i++) {
-      createModalWork(i, data);
-    };
-  })
-  .then(data => {
-    const iconePoubelleBoutons = document.querySelectorAll(".poubelle");
-    const supprimerphotobtn = document.getElementById("supprimerphotobtn");
-    console.log(iconePoubelleBoutons);
-    for (const iconePoubelleBouton of iconePoubelleBoutons) {
-      console.log(iconePoubelleBouton);
-      const id = iconePoubelleBouton.dataset.workid;
+      for (let i = 0; i < data.length; i++) {
+        createModalWork(i, data);
+      };
+    })
+    .then(() => {
+      const iconePoubelleBoutons = document.querySelectorAll(".poubelle");
+      const supprimerphotobtn = document.getElementById("supprimerphotobtn");
+      if (iconePoubelleBoutons) {
+        for (const iconePoubelleBouton of iconePoubelleBoutons) {
+          const id = iconePoubelleBouton.dataset.workid;
 
-      iconePoubelleBouton.addEventListener("click", function (event) {
-        console.log("click");
-        console.log(id);
-        deleteImage(id, iconePoubelleBouton);
+          iconePoubelleBouton.addEventListener("click", function (event) {
+            console.log("click");
+            console.log(id);
+            deleteImage(id, iconePoubelleBouton);
 
-      })
-      supprimerphotobtn.addEventListener("click", function () {
-        const images = document.querySelectorAll("figure");
-        images.forEach(function (image) {
-          deleteImage(id, iconePoubelleBouton);
-        })
+          })
+          supprimerphotobtn.addEventListener("click", function () {
+            const images = document.querySelectorAll(".work");
+            if (images) {
+              images.forEach(function (image) {
+                deleteImage(id, iconePoubelleBouton);
+              })
+            }
+          });
+        }
+      }
+
+    })
+    .then(() => {
+
+      const form = document.getElementById("ajouterphoto");
+
+      form.addEventListener("submit", async (event) => {
+        console.log("Soumission du formulaire");
+        event.preventDefault();
+
+        const fileInput = document.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+        const maxSize = 4 * 1024 * 1024; // 4 Mo en octets
+        if (file.size > maxSize) {
+          alert("Le fichier est trop volumineux !");
+        } else if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+          alert("Le fichier doit être une image au format PNG, JPEG ou JPG !");
+        } else {
+
+          sendFormData(form);
+          console.log("ok");
+          const modale = document.getElementById("modale");
+          modale.style.display = "none";
+          location.reload();
+        }
       });
-    }
-
-  })
-  .then(data => {
-    console.log(data);
-    const form = document.getElementById("ajouterphoto");
-
-    form.addEventListener("submit", async (event) => {
-      console.log("Soumission du formulaire");
-      event.preventDefault();
-      sendFormData(form);
-      const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
-      const corpsModale = document.querySelector(".corpsmodale");
-      ajouterPhotoDiv.style.display = "none";
-      corpsModale.style.display = "flex";
-      
     });
-    console.log(data);
-    for (let i = 0; i < data.length; i++) {
-      createModalWork(i, data);
-    };
-
-
-  });
+}
 /*
 
 */
@@ -155,8 +160,8 @@ function createImagePreview() {
   });
 };
 
-function deleteImage(id, iconePoubelleBouton) {
-  const reponse = fetch(`http://localhost:5678/api/works/${id}`, {
+async function deleteImage(id, iconePoubelleBouton) {
+  const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -208,40 +213,58 @@ async function sendFormData(form) {
 }
 
 
+if (ouvrirBouton) {
+  ouvrirBouton.addEventListener("click", function () {
+    modale.style.display = "block";
+  });
+}
 
-ouvrirBouton.addEventListener("click", function () {
-  modale.style.display = "block";
+if (fermerBouton) {
+  fermerBouton.addEventListener("click", function () {
+    modale.style.display = "none";
+  });
+}
 
-});
+if (overlay) {
+  overlay.addEventListener("click", function () {
+    modale.style.display = "none";
+  });
+}
 
-fermerBouton.addEventListener("click", function () {
-  modale.style.display = "none";
-});
+if (publierBouton) {
+  publierBouton.addEventListener("click", function () {
+    sessionStorage.removeItem("Token");
+    window.location.href = "index.html";
+  });
+}
 
-overlay.addEventListener("click", function () {
-  modale.style.display = "none";
-});
-
-publierBouton.addEventListener("click", function () {
-
-  sessionStorage.removeItem("Token");
-  window.location.href = "index.html";
-});
-
-deconnexionBouton.addEventListener("click", function () {
-
-  sessionStorage.removeItem("Token");
-  window.location.href = "index.html";
-});
+if (deconnexionBouton) {
+  deconnexionBouton.addEventListener("click", function () {
+    sessionStorage.removeItem("Token");
+    window.location.href = "index.html";
+  });
+}
 
 const ajouterPhotoBouton = document.getElementById("ajouterphotobtn");
+if (ajouterPhotoBouton) {
+  ajouterPhotoBouton.addEventListener("click", function () {
+    const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
+    const corpsModale = document.querySelector(".corpsmodale");
+    if (ajouterPhotoDiv && corpsModale) {
+      ajouterPhotoDiv.style.display = "flex";
+      corpsModale.style.display = "none";
+    }
+  });
+}
 
-ajouterPhotoBouton.addEventListener("click", function () {
-  const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
-  const corpsModale = document.querySelector(".corpsmodale");
-  ajouterPhotoDiv.style.display = "flex";
-  corpsModale.style.display = "none";
-});
-
-
-
+const boutonRetour = document.getElementById("boutonretour")
+if (boutonRetour) {
+  boutonRetour.addEventListener("click", function () {
+    const ajouterPhotoDiv = document.getElementById("ajoutphotomodale")
+    const corpsModale = document.querySelector(".corpsmodale");
+    if (ajouterPhotoDiv && corpsModale) {
+      ajouterPhotoDiv.style.display = "none";
+      corpsModale.style.display = "flex";
+    }
+  })
+}

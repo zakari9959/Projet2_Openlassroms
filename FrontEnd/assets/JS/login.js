@@ -29,8 +29,6 @@ async function loginUser(email, password) {
     if (reponse.ok) {
 
         const json = await reponse.json();
-        console.log(json);
-        console.log(`Token: ${json.token}`);
         // Stockage du token de l'utilisateur dans le sessionStorage
         sessionStorage.setItem("Token", json.token);
         // Redirection vers la page d'accueil
@@ -44,18 +42,17 @@ async function loginUser(email, password) {
     }
 
     // Ajout de l'élément affichant l'erreur dans le DOM
-    main.appendChild(nouvelleErreurTexte);
+    if(main){
+    main.appendChild(nouvelleErreurTexte)};
 }
 
 
 // Écouteur d'événement sur la soumission du formulaire
+if(form){
 form.addEventListener("submit", async (event) => {
     console.log("Soumission du formulaire");
     event.preventDefault();
     const email = form.elements.email.value;
     const password = form.elements.password.value;
-    console.log(`Email: ${email}`);
-    console.log(`Mot de passe: ${password}`);
-    console.log(loginUser(email, password));
-    const json = loginUser(email, password);
-});
+   loginUser(email, password);
+})};
