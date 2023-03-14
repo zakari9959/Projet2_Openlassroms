@@ -58,3 +58,15 @@ async function initApi() {
             })
         });
 }
+
+const modal = document.getElementById("modale");
+modal.addEventListener("onhidden", function () {
+
+    initApi()
+  });
+/*
+window.addEventListener('load', function () {
+    let galleryDiv = document.querySelector('#gallery');
+    galleryDiv.innerHTML = "";
+    initApi();
+}); */

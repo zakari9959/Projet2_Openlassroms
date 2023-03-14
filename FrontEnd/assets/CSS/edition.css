@@ -156,9 +156,14 @@
     border-radius: 10px;
     z-index: 11;
 }
-.work {
+.modalwork {
     position: relative;
 }
+.modalwork img{
+    
+    height: 100px;
+}
+
 .work i {
     position: absolute;
     top: 6px;
@@ -176,11 +181,13 @@
     flex-direction: column;
     align-items: center;
 }
+
 #ajouterphoto {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 #boutonretour {
     position: absolute;
     top: 36px;
@@ -188,12 +195,14 @@
     width: 21px;
     cursor: pointer;
 }
+
 #ajoutphotomodale {
     display: flex;
     flex-direction: column;
     align-items: center;
 
 }
+
 #divimage {
     background-color: #E8F1F7;
     width: 420px;
@@ -206,6 +215,7 @@
     border-radius: 3%;
     cursor: pointer;
 }
+
 #texteajouterunephoto {
     padding: 10px 33px;
     background-color: #CBD6DC;
@@ -213,6 +223,7 @@
     margin-bottom: 7px;
     cursor: pointer;
 }
+
 .divtexte {
     display: flex;
     flex-direction: column;
@@ -220,9 +231,11 @@
     padding-bottom: 26px;
     margin-bottom: 32px;
 }
+
 .divtexte label {
     margin-bottom: 10px;
 }
+
 .divtexte input {
     height: 51px;
     padding-left: 16px;
@@ -230,6 +243,7 @@
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 .divtexte select {
     border: none;
     height: 51px;
@@ -237,6 +251,7 @@
     padding-left: 16px;
     cursor: pointer;
 }
+
 #ajoutvalider {
     width: 237px;
     padding: 10px 0;
@@ -258,6 +273,6 @@
     cursor: pointer;
 }
 
-#image-preview img{
+#image-preview img {
     width: 129px;
 }

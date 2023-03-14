@@ -4,7 +4,7 @@ const fermerBouton = document.getElementById("fermermodale");
 const overlay = document.getElementById("overlay");
 const publierBouton = document.getElementById("publier");
 const deconnexionBouton = document.getElementById("deconnexion");
-
+let galleryDiv = document.querySelector('#gallerymodale');
 
 
 // Affichage des éléments cachés une fois que l'utilisateur est connecté
@@ -21,7 +21,7 @@ if (hiddenElements && tokenUtilisateur) {
 };
 
 function createModalWork(i, data) {
-  let galleryDiv = document.querySelector('#gallerymodale');
+
   let figurePhoto = document.createElement("figure");
   let figcaptionPhoto = document.createElement("figcaption");
   let imgWork = document.createElement("img");
@@ -36,11 +36,13 @@ function createModalWork(i, data) {
   imgWork.alt = data[i].title;
   imgWork.crossOrigin = 'same-origin';
   figcaptionPhoto.innerText = "éditer";
-  figurePhoto.classList.add('work'); /* changer par work modal pour ne plus filtrer dans la modale*/
+  figurePhoto.classList.add('work');
+  figurePhoto.classList.add('modalwork'); /* changer par work modal pour ne plus filtrer dans la modale*/
   figurePhoto.dataset.workcategoryid = data[i].categoryId;
   figurePhoto.dataset.workid = data[i].id;
   iconePoubelle.dataset.workid = data[i].id;
   if (galleryDiv) {
+
     galleryDiv.appendChild(figurePhoto);
     imgWork.appendChild(iconePoubelle);
     figurePhoto.appendChild(imgWork);
@@ -53,7 +55,7 @@ async function initApiEdition() {
   await fetch("http://localhost:5678/api/works")
     .then(response => response.json())
     .then(data => {
-
+      galleryDiv.innerHTML = "";
       for (let i = 0; i < data.length; i++) {
         createModalWork(i, data);
       };
@@ -69,6 +71,7 @@ async function initApiEdition() {
             console.log("click");
             console.log(id);
             deleteImage(id, iconePoubelleBouton);
+            refreshApi()
 
           })
           supprimerphotobtn.addEventListener("click", function () {
@@ -76,6 +79,7 @@ async function initApiEdition() {
             if (images) {
               images.forEach(function (image) {
                 deleteImage(id, iconePoubelleBouton);
+                refreshApi()
               })
             }
           });
@@ -102,9 +106,18 @@ async function initApiEdition() {
 
           sendFormData(form);
           console.log("ok");
+
           const modale = document.getElementById("modale");
-          modale.style.display = "none";
-          location.reload();
+          if (modale) {
+            modale.style.display = "none";
+          }
+          const ajouterPhotoDiv = document.getElementById("ajoutphotomodale");
+          const corpsModale = document.querySelector(".corpsmodale");
+          if (ajouterPhotoDiv && corpsModale) {
+            ajouterPhotoDiv.style.display = "none";
+            corpsModale.style.display = "flex";
+          }
+
         }
       });
     });
@@ -172,6 +185,7 @@ async function deleteImage(id, iconePoubelleBouton) {
       if (reponse.ok) {
         iconePoubelleBouton.parentNode.remove();
 
+
       } else {
         console.log(`Impossible de supprimer le travail ${id}`);
       }
@@ -195,8 +209,7 @@ async function sendFormData(form) {
     body: formData,
   };
 
-  console.log(formData.get("category"));
-  console.log(sessionStorage.Token);
+
   for (let [key, value] of formData.entries()) {
     console.log(key + ': ' + value);
   }
@@ -204,7 +217,10 @@ async function sendFormData(form) {
   try {
     const reponse = await fetch(postApi, fetchInit);
     if (reponse.ok) {
-      console.log('ok')
+      console.log("Image ajouté");
+      refreshApi();
+      refreshModal();
+
     }
   } catch (error) {
     console.error(error);
@@ -215,6 +231,7 @@ async function sendFormData(form) {
 
 if (ouvrirBouton) {
   ouvrirBouton.addEventListener("click", function () {
+
     modale.style.display = "block";
   });
 }
@@ -222,12 +239,14 @@ if (ouvrirBouton) {
 if (fermerBouton) {
   fermerBouton.addEventListener("click", function () {
     modale.style.display = "none";
+
   });
 }
 
 if (overlay) {
   overlay.addEventListener("click", function () {
     modale.style.display = "none";
+
   });
 }
 
@@ -267,4 +286,77 @@ if (boutonRetour) {
       corpsModale.style.display = "flex";
     }
   })
+}
+
+
+async function refreshApi() {
+  await fetch("http://localhost:5678/api/works")
+    .then(response => response.json())
+    .then(data => {
+
+      populateGallery(data);
+    })
+
+}
+function populateGallery(data) {
+  let galleryDiv = document.querySelector('#gallery');
+  if (galleryDiv) {
+    galleryDiv.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+      let workElement = createWorkElement(data[i]);
+      galleryDiv.appendChild(workElement);
+    }
+  }
+}
+function createWorkElement(work) {
+  let figurePhoto = document.createElement("figure");
+  let figcaptionPhoto = document.createElement("figcaption");
+  let imgWork = document.createElement("img");
+  imgWork.src = work.imageUrl;
+  imgWork.alt = work.title;
+  imgWork.crossOrigin = 'same-origin';
+  figcaptionPhoto.innerHTML = work.title;
+  figurePhoto.classList.add('work');
+  figurePhoto.dataset.workcategoryid = work.categoryId;
+  figurePhoto.dataset.workid = work.id;
+  figurePhoto.appendChild(imgWork);
+  figurePhoto.appendChild(figcaptionPhoto);
+  return figurePhoto;
+}
+async function refreshModal() {
+  await fetch("http://localhost:5678/api/works")
+    .then(response => response.json())
+    .then(data => {
+      galleryDiv.innerHTML = "";
+      for (let i = 0; i < data.length; i++) {
+        createModalWork(i, data);
+      };
+    })
+    .then(() => {
+      const iconePoubelleBoutons = document.querySelectorAll(".poubelle");
+      const supprimerphotobtn = document.getElementById("supprimerphotobtn");
+      if (iconePoubelleBoutons) {
+        for (const iconePoubelleBouton of iconePoubelleBoutons) {
+          const id = iconePoubelleBouton.dataset.workid;
+
+          iconePoubelleBouton.addEventListener("click", function (event) {
+            console.log("click");
+            console.log(id);
+            deleteImage(id, iconePoubelleBouton);
+            refreshApi()
+
+          })
+          supprimerphotobtn.addEventListener("click", function () {
+            const images = document.querySelectorAll(".work");
+            if (images) {
+              images.forEach(function (image) {
+                deleteImage(id, iconePoubelleBouton);
+                refreshApi()
+              })
+            }
+          });
+        }
+      }
+
+    })
 }
