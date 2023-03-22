@@ -156,11 +156,13 @@
     border-radius: 10px;
     z-index: 11;
 }
+
 .modalwork {
     position: relative;
 }
-.modalwork img{
-    
+
+.modalwork img {
+
     height: 100px;
 }
 

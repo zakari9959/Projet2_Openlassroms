@@ -4,8 +4,6 @@ const main = document.querySelector('main');
 // Création d'un élément pour afficher les erreurs
 const erreurTexte = document.createElement("div");
 erreurTexte.classList.add('mdperrone');
-
-
 // Création de la fonction pour obtenir le token
 async function loginUser(email, password) {
     // Envoi de la requête POST pour la connexion de l'utilisateur
@@ -21,13 +19,12 @@ async function loginUser(email, password) {
     const ancienErreurTexte = document.querySelector('.mdperrone');
     if (ancienErreurTexte) {
         ancienErreurTexte.remove();
-    };
-    // Traitement de la réponse de la requête
+    };    
     // Création d'un nouvel élément pour afficher l'erreur correspondante
     const nouvelleErreurTexte = document.createElement("div");
     nouvelleErreurTexte.classList.add('mdperrone');
+    // Traitement de la réponse de la requête
     if (reponse.ok) {
-
         const json = await reponse.json();
         // Stockage du token de l'utilisateur dans le sessionStorage
         sessionStorage.setItem("Token", json.token);
@@ -40,19 +37,18 @@ async function loginUser(email, password) {
     } else {
         nouvelleErreurTexte.innerText = "Erreur inconnue";
     }
-
     // Ajout de l'élément affichant l'erreur dans le DOM
-    if(main){
-    main.appendChild(nouvelleErreurTexte)};
+    if (main) {
+        main.appendChild(nouvelleErreurTexte)
+    };
 }
-
-
 // Écouteur d'événement sur la soumission du formulaire
-if(form){
-form.addEventListener("submit", async (event) => {
-    console.log("Soumission du formulaire");
-    event.preventDefault();
-    const email = form.elements.email.value;
-    const password = form.elements.password.value;
-   loginUser(email, password);
-})};
+if (form) {
+    form.addEventListener("submit", async (event) => {
+        console.log("Soumission du formulaire");
+        event.preventDefault();
+        const email = form.elements.email.value;
+        const password = form.elements.password.value;
+        loginUser(email, password);
+    })
+};

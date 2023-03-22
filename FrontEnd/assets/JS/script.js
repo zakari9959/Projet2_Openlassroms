@@ -1,5 +1,3 @@
-
-
 function createWorkElement(work) {
     let figurePhoto = document.createElement("figure");
     let figcaptionPhoto = document.createElement("figcaption");
@@ -15,7 +13,6 @@ function createWorkElement(work) {
     figurePhoto.appendChild(figcaptionPhoto);
     return figurePhoto;
 }
-
 function filterWorksByCategoryId(categoryId) {
     const works = document.querySelectorAll('.work');
     if (works) {
@@ -29,7 +26,6 @@ function filterWorksByCategoryId(categoryId) {
         })
     };
 }
-
 function populateGallery(data) {
     let galleryDiv = document.querySelector('#gallery');
     if (galleryDiv) {
@@ -47,26 +43,16 @@ async function initApi() {
             populateGallery(data);
         })
         .then(() => {
-
             document.querySelectorAll(".filtre").forEach(filtre => {
                 filtre.addEventListener("click", function () {
                     const categoryId = this.getAttribute("data-categoryId");
                     filterWorksByCategoryId(categoryId);
                 });
-
-
             })
         });
 }
-
 const modal = document.getElementById("modale");
 modal.addEventListener("onhidden", function () {
-
+    console.log(ok);
     initApi()
-  });
-/*
-window.addEventListener('load', function () {
-    let galleryDiv = document.querySelector('#gallery');
-    galleryDiv.innerHTML = "";
-    initApi();
-}); */
+});

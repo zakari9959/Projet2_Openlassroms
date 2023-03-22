@@ -40,11 +40,11 @@ form button {
     border: none;
 }
 
-form h2 {
+h3 {
     padding: 10px 38px;
     color: white;
     font-size: 14px;
-
+    font-weight: 700;
     background-color: #1D6154;
 
     border-radius: 60px;
